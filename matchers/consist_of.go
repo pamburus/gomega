@@ -154,6 +154,26 @@ func valuesOf(actual any) []any {
 	return values
 }
 
+func keysOf(actual any) []any {
+	value := reflect.ValueOf(actual)
+	values := []any{}
+	if miter.IsIter(actual) {
+		if miter.IsSeq2(actual) {
+			miter.IterateKV(actual, func(k, v reflect.Value) bool {
+				values = append(values, k.Interface())
+				return true
+			})
+		}
+	} else if isMap(actual) {
+		keys := value.MapKeys()
+		for i := 0; i < value.Len(); i++ {
+			values = append(values, keys[i].Interface())
+		}
+	}
+
+	return values
+}
+
 func (matcher *ConsistOfMatcher) FailureMessage(actual any) (message string) {
 	message = format.Message(actual, "to consist of", presentable(matcher.Elements))
 	message = appendMissingElements(message, matcher.missingElements)

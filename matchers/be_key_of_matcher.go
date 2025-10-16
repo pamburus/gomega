@@ -37,9 +37,9 @@ func (matcher *BeKeyOfMatcher) Match(actual any) (success bool, err error) {
 }
 
 func (matcher *BeKeyOfMatcher) FailureMessage(actual any) (message string) {
-	return format.Message(actual, "to be a key of", presentable(valuesOf(matcher.Map)))
+	return format.Message(actual, "to be a key of", presentable(keysOf(matcher.Map)))
 }
 
 func (matcher *BeKeyOfMatcher) NegatedFailureMessage(actual any) (message string) {
-	return format.Message(actual, "not to be a key of", presentable(valuesOf(matcher.Map)))
+	return format.Message(actual, "not to be a key of", presentable(keysOf(matcher.Map)))
 }
